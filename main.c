@@ -5,14 +5,78 @@
 //----------------------------- Variáveis Comuns -----------------------------
 
 int i, aux;
-char Chave[2][62]={{" AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890"},{"r5 6LBdYch3bKSXFOTCjnxARsGV4m1Qtfy0UEWz8q2eauM9Iogk7DPpJvwZHiNl"}};
-char CHAVE[7]="NoTaDeZ";
+char Chave[2][64]={{" AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890"},{"r5 6LBdYch3bKSXFOTCjnxARsGV4m1Qtfy0UEWz8q2eauM9Iogk7DPpJvwZHiNl"}};
+char CHAVE[8]="NoTaDeZ";
 
 //----------------- Função para poupar linha no getchar duplicado ------------
 
 void pause(){
     getchar();
     getchar();
+}
+
+// -------------------------------------- Criptografia Menu ------------------
+
+void Criptografar(){
+
+    int h, continu;
+
+    while(1){
+
+        fflush(stdin);
+
+        system("clear || cls");
+        printf("\nATENCAO! O arquivo apenas sera lido se outro for nomeado como (message.txt) ");
+        printf("\n\nO tal deve se situar mesma pasta onde este programa esta salvo...");
+        printf("\nCaso ja tenhas escolhido digitar seu texto, o arquivo sera criptografado normalmente...");
+        printf("\nUm novo arquivo com nome de (crypto.txt) sera criado, qualquer outro com mesmo nome sera subtituido...");
+        printf("\n_______________________________________");
+        printf("\n\n1- Continuar");
+        printf("\n\n2- Sair");
+        printf("\n_______________________________________");
+        printf("\n\nDigite a Opcao Desejada: ");
+        scanf("%d", &h);
+        if(h==1){
+            while(1){
+
+                fflush(stdin);
+
+                system("clear || cls");
+                printf("\n\tChaves");
+                printf("\n_______________________________________");
+                printf("\n\n1- Cifra de Cesar");
+                printf("\n\n2- Codigo Ascii");
+                printf("\n\n3- Substituicao");
+                printf("\n_______________________________________");
+                printf("\n\nDigite a Opcao Desejada: ");
+                scanf("%d", &continu);
+                if(continu==1){
+                    Cesar();
+                    return;
+                }
+                else if(continu==2){
+                    Ascii();
+                    return;
+                }
+                else if(continu==3){
+                    substituicao();
+                    return;
+                }
+                else{
+                    printf("\nOpcao Invalida");
+                    pause();
+                }
+            }
+            break;
+        }
+        if(h==2){
+            return;
+        }
+        else{
+            printf("\n\nOpcao Invalida...");
+            pause();
+        }
+    }
 }
 
 //----------------------------- Descriptografar ------------------------------
@@ -368,71 +432,6 @@ void OpcaoNula(){
         }
         getchar();
         return;
-    }
-}
-
-
-// -------------------------------------- Criptografia Menu ------------------
-
-void Criptografar(){
-
-    int h, continu;
-
-    while(1){
-
-        fflush(stdin);
-
-        system("clear || cls");
-        printf("\nATENCAO! O arquivo apenas sera lido se outro for nomeado como (message.txt) ");
-        printf("\n\nO tal deve se situar mesma pasta onde este programa esta salvo...");
-        printf("\nCaso ja tenhas escolhido digitar seu texto, o arquivo sera criptografado normalmente...");
-        printf("\nUm novo arquivo com nome de (crypto.txt) sera criado, qualquer outro com mesmo nome sera subtituido...");
-        printf("\n_______________________________________");
-        printf("\n\n1- Continuar");
-        printf("\n\n2- Sair");
-        printf("\n_______________________________________");
-        printf("\n\nDigite a Opcao Desejada: ");
-        scanf("%d", &h);
-        if(h==1){
-            while(1){
-
-                fflush(stdin);
-
-                system("clear || cls");
-                printf("\n\tChaves");
-                printf("\n_______________________________________");
-                printf("\n\n1- Cifra de Cesar");
-                printf("\n\n2- Codigo Ascii");
-                printf("\n\n3- Substituicao");
-                printf("\n_______________________________________");
-                printf("\n\nDigite a Opcao Desejada: ");
-                scanf("%d", &continu);
-                if(continu==1){
-                    Cesar();
-                    return;
-                }
-                else if(continu==2){
-                    Ascii();
-                    return;
-                }
-                else if(continu==3){
-                    substituicao();
-                    return;
-                }
-                else{
-                    printf("\nOpcao Invalida");
-                    pause();
-                }
-            }
-            break;
-        }
-        if(h==2){
-            return;
-        }
-        else{
-            printf("\n\nOpcao Invalida...");
-            pause();
-        }
     }
 }
 
