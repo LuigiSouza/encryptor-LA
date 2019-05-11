@@ -2,81 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-//----------------------------- Vari√°veis Comuns -----------------------------
+//----------------------------- Vari·veis Comuns -----------------------------
 
-int i, aux;
+int i, aux, z;
 char Chave[2][64]={{" AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890"},{"r5 6LBdYch3bKSXFOTCjnxARsGV4m1Qtfy0UEWz8q2eauM9Iogk7DPpJvwZHiNl"}};
 char CHAVE[8]="NoTaDeZ";
 
-//----------------- Fun√ß√£o para poupar linha no getchar duplicado ------------
+//----------------- FunÁ„o para poupar linha no getchar duplicado ------------
 
 void pause(){
     getchar();
     getchar();
-}
-
-// -------------------------------------- Criptografia Menu ------------------
-
-void Criptografar(){
-
-    int h, continu;
-
-    while(1){
-
-        fflush(stdin);
-
-        system("clear || cls");
-        printf("\nATENCAO! O arquivo apenas sera lido se outro for nomeado como (message.txt) ");
-        printf("\n\nO tal deve se situar mesma pasta onde este programa esta salvo...");
-        printf("\nCaso ja tenhas escolhido digitar seu texto, o arquivo sera criptografado normalmente...");
-        printf("\nUm novo arquivo com nome de (crypto.txt) sera criado, qualquer outro com mesmo nome sera subtituido...");
-        printf("\n_______________________________________");
-        printf("\n\n1- Continuar");
-        printf("\n\n2- Sair");
-        printf("\n_______________________________________");
-        printf("\n\nDigite a Opcao Desejada: ");
-        scanf("%d", &h);
-        if(h==1){
-            while(1){
-
-                fflush(stdin);
-
-                system("clear || cls");
-                printf("\n\tChaves");
-                printf("\n_______________________________________");
-                printf("\n\n1- Cifra de Cesar");
-                printf("\n\n2- Codigo Ascii");
-                printf("\n\n3- Substituicao");
-                printf("\n_______________________________________");
-                printf("\n\nDigite a Opcao Desejada: ");
-                scanf("%d", &continu);
-                if(continu==1){
-                    Cesar();
-                    return;
-                }
-                else if(continu==2){
-                    Ascii();
-                    return;
-                }
-                else if(continu==3){
-                    substituicao();
-                    return;
-                }
-                else{
-                    printf("\nOpcao Invalida");
-                    pause();
-                }
-            }
-            break;
-        }
-        if(h==2){
-            return;
-        }
-        else{
-            printf("\n\nOpcao Invalida...");
-            pause();
-        }
-    }
 }
 
 //----------------------------- Descriptografar ------------------------------
@@ -142,11 +78,10 @@ void Descriptografar(char choice[100],char chave){
     fclose(descr);
 }
 
-//------------------------------ Substitui√ß√£o --------------------------------
+//------------------------------ SubstituiÁ„o --------------------------------
 
 void substituicao(){
 
-	int z;
     char ler[1000];
 
     char cripto;
@@ -193,7 +128,6 @@ void substituicao(){
 
 void Ascii(){
 
-	int z;
 	int lern[1000];
     char ler[1000];
 
@@ -282,11 +216,77 @@ void Cesar(){
     }
 }
 
-// ----------------------------Digitar a P≈ïopria mensagem --------------------
+// -------------------------------------- Criptografia Menu ------------------
+
+void Criptografar(){
+
+    int h, continu;
+
+    while(1){
+
+        system("clear || cls");
+        printf("\nATENCAO! O arquivo apenas sera lido se outro for nomeado como (message.txt) ");
+        printf("\n\nO tal deve se situar mesma pasta onde este programa esta salvo...");
+        printf("\nCaso ja tenhas escolhido digitar seu texto, o arquivo sera criptografado normalmente...");
+        printf("\nUm novo arquivo com nome de (crypto.txt) sera criado, qualquer outro com mesmo nome sera subtituido...");
+        printf("\n_______________________________________");
+        printf("\n\n1- Continuar");
+        printf("\n\n2- Sair");
+        printf("\n_______________________________________");
+        printf("\n\nDigite a Opcao Desejada: ");
+        
+        fflush(stdin);
+        
+        scanf("%d", &h);
+
+        if(h==1){
+            while(1){
+
+                fflush(stdin);
+
+                system("clear || cls");
+                printf("\n\tChaves");
+                printf("\n_______________________________________");
+                printf("\n\n1- Cifra de Cesar");
+                printf("\n\n2- Codigo Ascii");
+                printf("\n\n3- Substituicao");
+                printf("\n_______________________________________");
+                printf("\n\nDigite a Opcao Desejada: ");
+                scanf("%d", &continu);
+                if(continu==1){
+                    Cesar();
+                    return;
+                }
+                else if(continu==2){
+                    Ascii();
+                    return;
+                }
+                else if(continu==3){
+                    substituicao();
+                    return;
+                }
+                else{
+                    printf("\nOpcao Invalida");
+                    pause();
+                }
+            }
+            break;
+        }
+        else if(h==2){
+            return;
+        }
+        else{
+            printf("\n\nOpcao Invalida...");
+            pause();
+        }
+    }
+}
+
+// ----------------------------Digitar a Propria mensagem --------------------
 
 void MenuDigitar(){
 
-    char x;
+    int x;
 	int continu;
 
 	while(1){
@@ -309,7 +309,7 @@ void MenuDigitar(){
 			char frase[1000000];
 
 			if(texto==NULL){
-				printf("\nN√£o foi possivel abrir o arquivo...");
+				printf("\nN„o foi possivel abrir o arquivo...");
 				return;
 			}
             else{
@@ -321,7 +321,7 @@ void MenuDigitar(){
                 fprintf(texto, "%s", frase);
 
                 if(strlen(frase)>1000000){
-                    printf("\n\nA frase digitade ultrapassa os limites permitidos... O programa se√° abortado...");
+                    printf("\n\nA frase digitade ultrapassa os limites permitidos... O programa se· abortado...");
                     pause();
                     fclose(texto);
                     exit(0);
@@ -337,27 +337,29 @@ void MenuDigitar(){
                     printf("\n\n3- Menu");
                     printf("\n_______________________________________");
                     printf("\n\nDigite a Opcao Desejada: ");
-                    scanf("%s", &x);
+                    scanf("%d", &x);
 
-                    switch(x){
-                        case '1':
-                            fclose(texto);
-                            Criptografar();
-                            break;
-                        case '2':
-                            fclose(texto);
-                            system("cls || clear");
-                            MenuDigitar();
-                            break;
-                        case '3':
-                            fclose(texto);
-                            break;
-                        default:
-                            printf("\n\nDigite um Opcao Valida...");
-                            pause();
-                            system("cls || clear");
-                            printf("\n%s\n\n", frase);
-                            continue;
+                    if(x==1){
+                        fclose(texto);
+                        Criptografar();
+                        break;
+                    }
+                    else if(x==2){
+                        fclose(texto);
+                        system("cls || clear");
+                        MenuDigitar();
+                    	break;
+                    }
+                	else if(x==3){
+                        fclose(texto);
+                        break;
+                    }
+                	else{
+						printf("\n\nDigite um Opcao Valida...");
+                        pause();
+                        system("cls || clear");
+                        printf("\n%s\n\n", frase);
+                        continue;
                     }
                     break;
                 }
@@ -373,7 +375,7 @@ void MenuDigitar(){
 		}
 	}
 }
-// -------------------------------------- Menu Op√ß√£o NULA --------------------
+// -------------------------------------- Menu OpÁ„o NULA --------------------
 
 void OpcaoNula(){
 
@@ -411,7 +413,7 @@ void OpcaoNula(){
         printf("\n\n2- Codigo Ascii");
         printf("\n\n3- Substituicao");
         printf("\n_______________________________________");
-        printf("\n\nDigite o c√≥digo conhecido: ");
+        printf("\n\nDigite o cÛdigo conhecido: ");
         scanf("%d", &y);
         if(y==1){
             printf("\n_______________________________________");
