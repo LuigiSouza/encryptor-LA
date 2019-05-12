@@ -11,3 +11,6 @@
 <h6><i>(ATENÇÃO) Qualquer outro arquivo com esses mesmos nomes serão automaticamente substituídos.</i></h6>
 <h6>Para formas mais práticas, o programa permite o usuário digitar sua mensagem diretamente pelo programa executável, cirando tanto o arquivo "message.txt" com a frase digitada como os arquivos "crypto.txt" e "descrypto.txt" na mesma pasta onde o arquivo foi iniciado com as encriptografias e descriptografias respecitivas sem necessidade de uma novo carregamento.</h6>
 <h6><i>(ATENÇÃO) Qualquer outro arquivo com esses mesmos nomes serão automaticamente substituídos.</i></h6>
+<h5>Cuidados Especiais</h5>
+<h6>É de suma importância que o usuário mantenha atenção nos passos tomados da execução do aplicativo, vários avisos na ela apareceram, contúdo certas opções uma vez escolhidas, não podem ser revertidas, resultando na perda ou substituição de determinado arquivo. Certos textos com limites de capacidade podem com certeza acabar por interromper a execução do programa.</h6>
+<h6>Sempre lembre-se da chave utilizada em seu processo de encriptografia. Tal programa só tem funcionalidade para converter tais códigos ou tranformá-los em outros, porém não há reconhecimento de padrões para assim pressupor um possível chave.</h6>
