@@ -2,13 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-//----------------------------- Vari·veis Comuns -----------------------------
+//----------------------------- Vari√°veis Comuns -----------------------------
 
 int i, aux, z;
+// Chave de Substitui√ß√£o
 char Chave[2][64]={{" AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890"},{"r5 6LBdYch3bKSXFOTCjnxARsGV4m1Qtfy0UEWz8q2eauM9Iogk7DPpJvwZHiNl"}};
+// Chave Tabela Ascii
 char CHAVE[8]="NoTaDeZ";
 
-//----------------- FunÁ„o para poupar linha no getchar duplicado ------------
+//----------------- Fun√ß√£o para poupar linha no getchar duplicado ------------
 
 void pause(){
     getchar();
@@ -17,7 +19,12 @@ void pause(){
 
 //----------------------------- Descriptografar ------------------------------
 
-void Descriptografar(char choice[100],char chave){
+void Descriptografar(int choice,char chave){
+
+    // O inteiro CHOICE recebido ir√° definir o tipo de descriptografia escolhida pelo usu√°rio
+    // 123 : Cifra de Cesar
+    // 456 : Tabela Ascii
+    // 789 : Substitui√ß√£o
 
     FILE *cript = fopen("crypto.txt","r");
     FILE *descr = fopen("descrypto.txt","w");
@@ -30,12 +37,13 @@ void Descriptografar(char choice[100],char chave){
     char ler[1000000];
 
     if (cript==NULL){
+        printf("_______________________________________");
         printf("\n\nNao foi possivel ler o texto Criptografado");
         getchar();
         return;
     }
     else{
-        if(choice=="cesar"){
+        if(choice==123){
             while(fgets(ler, 1000, cript) != NULL){
                 for(i=0;i<strlen(ler)-1;i++){
                     ler[i]=(int)ler[i]-(chave);
@@ -43,14 +51,16 @@ void Descriptografar(char choice[100],char chave){
                 fprintf(descr, "%s ", ler);
             }
         }
-        else if(choice=="ascii"){
+        else if(choice==456){
             while(!feof(cript)){
                 for(i=0;i<strlen(CHAVE);i++){
                     if(z>strlen(ler)){
+                        // Caso o texto j√° tenha acabado mas o la√ßo ainda est√° rodando, isso ir√° encerr√°-lo
                         fprintf(descr, "%s ",ler);
                         z=0;
                         break;
                     }
+                    // Dividir o Valor do caratere pelo valor da CHAVE
                     fscanf(cript, "%d", &convert);
                     convert/=(int)CHAVE[i];
                     ler[z]=convert;
@@ -58,19 +68,22 @@ void Descriptografar(char choice[100],char chave){
                 }
             }
         }
-        else if(choice=="subs"){
+        else if(choice==789){
             while(fgets(ler,1000, cript)){
                 for(i=0;i<strlen(ler);i++){
-                    for(z=0;z<63;z++){
+                    for(z=0;z<64;z++){
+                        // Subtituir os Devidos Caracteres
                         if(ler[i]==Chave[1][z]){
                             ler[i]=Chave[0][z];
-                            z=63;
+                            // z = Tamanho da Chave
+                            z=64;
                         }
                     }
                 }
                 fprintf(descr, "%s", ler);
             }
         }
+        printf("_______________________________________");
         printf("\n\nMensagem Descriptografada com Sucesso... Voltando ao Menu...");
         getchar();
     }
@@ -78,13 +91,11 @@ void Descriptografar(char choice[100],char chave){
     fclose(descr);
 }
 
-//------------------------------ SubstituiÁ„o --------------------------------
+//------------------------------ Substitui√ß√£o --------------------------------
 
 void substituicao(){
 
     char ler[1000];
-
-    char cripto;
 
     FILE *texto = fopen("message.txt","r");
     FILE *cript = fopen("crypto.txt","w");
@@ -96,6 +107,7 @@ void substituicao(){
     printf("\n_______________________________________");
 
 	if(texto == NULL){
+	    printf("_______________________________________");
         printf("\n\nNao foi possivel ler o arquivo...\n\n");
         pause();
         return;
@@ -103,10 +115,12 @@ void substituicao(){
     else{
         while(fgets(ler,1000, texto)){
             for(i=0;i<strlen(ler);i++){
-                for(z=0;z<63;z++){
+                for(z=0;z<64;z++){
+                    // Subtituir os Devidos Caracteres
                     if(ler[i]==Chave[0][z]){
                         ler[i]=Chave[1][z];
-                        z=63;
+                        // z = Tamanho da Chave
+                        z=64;
                     }
                 }
             }
@@ -120,18 +134,16 @@ void substituicao(){
 	fclose(cript);
 
     if(texto != NULL){
-        Descriptografar("subs", 0);
+        Descriptografar(789, 0);
     }
 }
 
-//---------------------------- Tabela Ascii ----------------------------------
+//------------------------------ Tabela Ascii --------------------------------
 
 void Ascii(){
 
-	int lern[1000];
+    int lern[1000];
     char ler[1000];
-
-    char cripto;
 
     FILE *texto = fopen("message.txt","r");
     FILE *cript = fopen("crypto.txt","w");
@@ -143,6 +155,7 @@ void Ascii(){
     printf("\n_______________________________________");
 
 	if(texto == NULL){
+        printf("_______________________________________");
         printf("\n\nNao foi possivel ler o arquivo...\n\n");
         pause();
         return;
@@ -154,6 +167,7 @@ void Ascii(){
                     if(z>strlen(ler)){
                         break;
                     }
+                    // Multiplicar o Valor do caratere pelo valor da CHAVE
                     lern[z] = (int)ler[z]*CHAVE[aux];
                     fprintf(cript, "%d ", lern[z]);
                     z++;
@@ -168,16 +182,16 @@ void Ascii(){
 	fclose(cript);
 
     if(texto != NULL){
-        Descriptografar("ascii", 0);
+        Descriptografar(456, 0);
     }
 
 }
 
-// ------------------------------------- Cifra de Cesar ----------------------
+// ---------------------------- Cifra de Cesar -------------------------------
 
 void Cesar(){
 
-	int chave;
+    int chave;
 
     char ler[1000];
 
@@ -193,6 +207,7 @@ void Cesar(){
     scanf("%d", &chave);
 
 	if(texto == NULL){
+        printf("_______________________________________");
         printf("\n\nNao foi possivel ler o arquivo...\n\n");
         pause();
         return;
@@ -204,6 +219,7 @@ void Cesar(){
             }
             fprintf(cript, "%s ", ler);
         }
+        printf("\n_______________________________________");
         printf("\n\nMensagem Encriptada com Sucesso... Partindo para Descriptografia...");
         pause();
     }
@@ -212,11 +228,11 @@ void Cesar(){
 	fclose(cript);
 
     if(texto != NULL){
-        Descriptografar("cesar", chave);
+        Descriptografar(123, chave);
     }
 }
 
-// -------------------------------------- Criptografia Menu ------------------
+// --------------------------- Criptografia Menu -----------------------------
 
 void Criptografar(){
 
@@ -225,18 +241,18 @@ void Criptografar(){
     while(1){
 
         system("clear || cls");
-        printf("\nATENCAO! O arquivo apenas sera lido se outro for nomeado como (message.txt) ");
-        printf("\n\nO tal deve se situar mesma pasta onde este programa esta salvo...");
-        printf("\nCaso ja tenhas escolhido digitar seu texto, o arquivo sera criptografado normalmente...");
+        printf("\nATENCAO! O arquivo apenas sera lido se o tal for nomeado como (message.txt) ");
+        printf("\n\nEste deve se situar mesma pasta onde este programa esta salvo...");
+        printf("\nCaso ja tenhas escolhido digitar manualmente seu texto, o arquivo sera criptografado normalmente...");
         printf("\nUm novo arquivo com nome de (crypto.txt) sera criado, qualquer outro com mesmo nome sera subtituido...");
         printf("\n_______________________________________");
         printf("\n\n1- Continuar");
         printf("\n\n2- Sair");
         printf("\n_______________________________________");
         printf("\n\nDigite a Opcao Desejada: ");
-        
+
         fflush(stdin);
-        
+
         scanf("%d", &h);
 
         if(h==1){
@@ -266,7 +282,8 @@ void Criptografar(){
                     return;
                 }
                 else{
-                    printf("\nOpcao Invalida");
+                    printf("_______________________________________");
+                    printf("\n\nOpcao Invalida");
                     pause();
                 }
             }
@@ -276,15 +293,16 @@ void Criptografar(){
             return;
         }
         else{
+            printf("_______________________________________");
             printf("\n\nOpcao Invalida...");
             pause();
         }
     }
 }
 
-// ----------------------------Digitar a Propria mensagem --------------------
+// -----------------------Digitar a Propria mensagem -------------------------
 
-void MenuDigitar(){
+void MenuDigitar(int opc){
 
     int x;
 	int continu;
@@ -297,6 +315,7 @@ void MenuDigitar(){
 		printf("\nATENCAO! O arquivo a seguir sera nomeado como (message.txt) ");
 		printf("\n\nO tal sera salvo na mesma pasta onde este programa esta salvo...");
 		printf("\nQualquer arquivo com o mesmo nome sera automaticamente substituido...");
+		printf("\nPara a opcao de apenas 'acrescentar' um texto, a frase sera escrita\na partir do final do arquivo...");
 		printf("\n_______________________________________");
 		printf("\n\n1- Continuar");
 		printf("\n\n2- Sair");
@@ -305,23 +324,43 @@ void MenuDigitar(){
 		scanf("%d", &continu);
 
 		if(continu==1){
-			FILE *texto = fopen("message.txt","w");
+
+            FILE *texto;
+
+            if(opc==123){
+                texto = fopen("message.txt","w");
+            }
+			else if(opc==456){
+                texto = fopen("message.txt","a");
+			}
+
 			char frase[1000000];
 
 			if(texto==NULL){
-				printf("\nN„o foi possivel abrir o arquivo...");
+                printf("_______________________________________");
+				printf("\n\nN√£o foi possivel abrir o arquivo...");
 				return;
 			}
             else{
                 system("cls || clear");
-                printf("\nDigite o texto desejado: ");
+                printf("\n\tRecebibento de texto");
+                printf("\n_______________________________________");
+                printf("\n\nDigite o texto desejado: ");
 
                 fflush(stdin);
                 scanf(" %[^\n]", frase);
-                fprintf(texto, "%s", frase);
+
+                if(opc==123){
+                    fprintf(texto, "%s", frase);
+                }
+                else if(opc==456){
+                    fprintf(texto, " ");
+                    fputs(frase, texto);
+                }
 
                 if(strlen(frase)>1000000){
-                    printf("\n\nA frase digitade ultrapassa os limites permitidos... O programa se· abortado...");
+                    printf("_______________________________________");
+                    printf("\n\nA frase digitade ultrapassa os limites permitidos... O programa sera abortado...");
                     pause();
                     fclose(texto);
                     exit(0);
@@ -334,7 +373,8 @@ void MenuDigitar(){
                     printf("\n_______________________________________");
                     printf("\n\n1- Encriptografar");
                     printf("\n\n2- Digitar Outra Frase");
-                    printf("\n\n3- Menu");
+                    printf("\n\n3- Acrescentar Outra Frase");
+                    printf("\n\n4- Menu");
                     printf("\n_______________________________________");
                     printf("\n\nDigite a Opcao Desejada: ");
                     scanf("%d", &x);
@@ -347,18 +387,27 @@ void MenuDigitar(){
                     else if(x==2){
                         fclose(texto);
                         system("cls || clear");
-                        MenuDigitar();
+                        MenuDigitar(123);
                     	break;
                     }
-                	else if(x==3){
+                    else if(x==3){
+                        fclose(texto);
+                        system("cls || clear");
+                        MenuDigitar(456);
+                    	break;
+                    }
+                	else if(x==4){
                         fclose(texto);
                         break;
                     }
                 	else{
+                        printf("_______________________________________");
 						printf("\n\nDigite um Opcao Valida...");
                         pause();
                         system("cls || clear");
-                        printf("\n%s\n\n", frase);
+                        printf("\n\n\tRecebibento de texto");
+                        printf("\n_______________________________________");
+                        printf("\n\n '%s'", frase);
                         continue;
                     }
                     break;
@@ -370,12 +419,13 @@ void MenuDigitar(){
 			return;
 		}
 		else{
+            printf("_______________________________________");
 			printf("\n\nOpcao Invalida...");
 			pause();
 		}
 	}
 }
-// -------------------------------------- Menu OpÁ„o NULA --------------------
+// ---------------------------- Menu Op√ß√£o NULA ------------------------------
 
 void OpcaoNula(){
 
@@ -385,7 +435,7 @@ void OpcaoNula(){
         system("cls || clear");
         printf("\nATENCAO! O arquivo apenas sera lido se for nomeado como (crypto.txt) ");
         printf("\n\nO tal deve se situar mesma pasta onde este programa esta salvo...");
-        printf("\nCaso ja tenhas escolhido digitar seu texto, o arquivo sera criptografado normalmente...");
+        printf("\nE necessario que o usuario tenha consciencia da chave e codigo utilizado...");
         printf("\nUm novo arquivo com nome de (descrypto.txt) sera criado, qualquer outro com mesmo nome sera subtituido...");
         printf("\n_______________________________________");
         printf("\n\n1- Continuar");
@@ -400,6 +450,7 @@ void OpcaoNula(){
                 return;
             }
             else{
+                printf("_______________________________________");
                 printf("\n\nDigite uma opcao valida...");
                 pause();
                 continue;
@@ -413,21 +464,22 @@ void OpcaoNula(){
         printf("\n\n2- Codigo Ascii");
         printf("\n\n3- Substituicao");
         printf("\n_______________________________________");
-        printf("\n\nDigite o cÛdigo conhecido: ");
+        printf("\n\nDigite o codigo conhecido: ");
         scanf("%d", &y);
         if(y==1){
-            printf("\n_______________________________________");
+            printf("_______________________________________");
             printf("\n\nDigite a Chave conhecida: ");
             scanf("%d", &nova);
-            Descriptografar("cesar", nova);
+            Descriptografar(123, nova);
         }
         else if(y==2){
-            Descriptografar("ascii", 0);
+            Descriptografar(456, 0);
         }
         else if(y==3){
-            Descriptografar("subs", 0);
+            Descriptografar(789, 0);
         }
         else{
+            printf("_______________________________________");
             printf("\n\nDigite uma opcao valida...");
             pause();
             continue;
@@ -437,49 +489,56 @@ void OpcaoNula(){
     }
 }
 
-// ------------------------------- MENU ---------------------------------------
+// --------------------------------- MENU ------------------------------------
 
 void menu(){
 
-    int x;
+    char x;
 
 	while(1){
 
         fflush(stdin);
 
 		system("clear || cls");
+		printf("\n_______________________________________\n");
 		printf("\n\tEncriptografador");
 		printf("\n_______________________________________");
 		printf("\n\n1- Digitar um mensagem");
-		printf("\n\n2- Encriptografia");
-		printf("\n\n3- Descriptografar");
-		printf("\n\n4- Sair");
+		printf("\n\n2- Acrescentar mensagem");
+		printf("\n\n3- Encriptografia");
+		printf("\n\n4- Descriptografar");
+		printf("\n\n5- Sair");
 		printf("\n_______________________________________");
 		printf("\n\nDigite a opcao desejada: ");
 		scanf("%s", &x);
 
 		switch(x){
 			case '1':
-				MenuDigitar();
+				MenuDigitar(123);
 				break;
 			case '2':
+				MenuDigitar(456);
+				break;
+			case '3':
 				Criptografar();
 				break;
-            case '3':
+            case '4':
                 OpcaoNula();
                 break;
-			case '4':
-				printf("\nFinalizando Programa...\n");
+			case '5':
+                printf("_______________________________________");
+				printf("\n\nFinalizando Programa...");
 				pause();
 				exit (0);
 			default:
-				printf("\nDigite um Opcao valida!\n");
+                printf("_______________________________________");
+				printf("\n\nDigite um Opcao valida!\n");
                 pause();
 		}
 	}
 }
 
-// ------------------------------- Main --------------------------------------
+// --------------------------------- Main ------------------------------------
 
 int main(int argc, char *argv[]){
 
